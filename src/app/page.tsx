@@ -1,16 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UserForms from './ui/user_forms'
 import Image from 'next/image'
 
 export default function Home() 
 {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [data, setData] = useState(null);
+
+  
 
   return (
     <div>
       <UserForms>
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
         
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
@@ -20,7 +23,7 @@ export default function Home()
             src="/megaphoneBackgroundRemoved.png"
             className="mx-auto h-10 w-auto"
           />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">Sign in to your account</h2>
+          <h2 className="mt-5 text-center text-2xl/9 font-bold tracking-tight text-white">Sign in to your account</h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -79,3 +82,7 @@ export default function Home()
     </div>
   )
 }
+function fetch(arg0: string) {
+  throw new Error('Function not implemented.')
+}
+

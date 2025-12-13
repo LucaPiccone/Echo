@@ -31,7 +31,6 @@ export default function UserForms({ children }: { children: React.ReactNode })
                 alt=""
                 src="/megaphoneBackgroundRemoved.png"
                 className=""
-                quality={10000}
               />
               <span className="text-sm/6 font-semibold text-white">Echo</span>
             </a>
