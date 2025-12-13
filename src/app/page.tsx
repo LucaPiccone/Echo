@@ -6,8 +6,6 @@ import Image from 'next/image'
 export default function Home() 
 {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [data, setData] = useState(null);
-
   
 
   return (
