@@ -1,23 +1,48 @@
 'use client';
 import UserForms from '@/src/app/ui/user_forms'
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function createNewAccount() {
+    const [error, setError] = useState<string | null>(null);
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {  
       e.preventDefault()
-      const formData = new FormData(e.currentTarget);
 
+      const formData = new FormData(e.currentTarget);
       const formJsonData = { email: formData.get('email'), 
                              name: formData.get('name'),
                              password: formData.get('password'),
                              confirmPassword: formData.get('confirmPassword')
-                           }
+      };
 
-      await fetch('/api/users/create_account', {
-        method: "POST",
-        body: JSON.stringify(formJsonData)
-      })
+      try {
+        const response = await fetch('/api/users/create_account', {
+          method: "POST",
+          body: JSON.stringify(formJsonData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.error || "Error in from validation.")
+          return;
+        }
+
+        console.log(data.message); // "success" or whatever you returned
+        // You can:
+        // - Redirect the user
+        // - Show a success message
+        // - Clear the form
+        // Example: 
+        // setSuccess(true); 
+        // router.push('/login');
+
+
+      } catch (err: any) {
+            throw new Error("Network Error");
+      }
+
     }
 
     return (
@@ -109,6 +134,7 @@ export default function createNewAccount() {
                     </button>
                   </div>
                 </form>
+                  {error && <div className="mt-2 text-center text-red-500 ">{error}</div>}
                 </div>  
             </UserForms>
         </div>
