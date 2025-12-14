@@ -10,9 +10,7 @@ export default function Home()
 
   return (
     <div>
-      <UserForms>
-        <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
-        
+      <UserForms>        
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
             alt="Echo"
@@ -74,8 +72,7 @@ export default function Home()
               </button>
             </div>
           </form>
-          </div>  
-        </div> 
+        </div>  
       </UserForms>
     </div>
   )

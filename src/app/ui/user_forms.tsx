@@ -70,15 +70,18 @@ export default function UserForms({ children }: { children: React.ReactNode })
         </nav>
         <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
           <div className="fixed inset-0 z-50 hidden" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
+          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-sky-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
             <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
+              <a href="#" className="-m-1.5 p-1.5 flex">
+                <span className="sr-only">Echo</span>
+                <Image
+                  width={25}
+                  height={25}
                   alt=""
-                  src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                  className="h-8 w-auto"
+                  src="/megaphoneBackgroundRemoved.png"
+                  className=""
                 />
+                <span className='text-sm/6 font-semibold text-white'>Echo</span>
               </a>
               <button
                 type="button"
@@ -103,12 +106,18 @@ export default function UserForms({ children }: { children: React.ReactNode })
                   ))}
                 </div> */}
                 <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5"
-                  >
-                    Log in
-                  </a>
+                  <Link href={clsx(
+                      {
+                          '/create_account': pathname == '/',
+                          '/': pathname =='/create_account'
+                      }
+                      )} className="mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">
+                      {pathname === '/create_account' ? (
+                          <span>Log in </span>
+                      ) : (
+                          <span>Create new account </span>
+                      )}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -130,7 +139,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
           />
         </div>
         
-        <div>
+        <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
             {children}
         </div>
 
