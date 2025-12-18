@@ -32,7 +32,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
                 src="/megaphoneBackgroundRemoved.png"
                 className=""
               />
-              <span className="text-sm/6 font-semibold text-white">Echo</span>
+              <span className="text-sm/6  text-white">Echo</span>
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -47,7 +47,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
           </div>
           {/* <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm/6 font-semibold text-white">
+              <a key={item.name} href={item.href} className="text-sm/6 text-white">
                 {item.name}
               </a>
             ))}
@@ -58,7 +58,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
                     '/create_account': pathname == '/',
                     '/': pathname =='/create_account'
                 }
-            )} className="text-sm/6 font-semibold text-white">
+            )} className="text-sm/6 text-white">
             {pathname === '/create_account' ? (
                 <span>Log in </span>
             ) : (
@@ -81,7 +81,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
                   src="/megaphoneBackgroundRemoved.png"
                   className=""
                 />
-                <span className='text-sm/6 font-semibold text-white'>Echo</span>
+                <span className='text-sm/6 text-white'>Echo</span>
               </a>
               <button
                 type="button"
@@ -99,7 +99,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
                     <a
                       key={item.name}
                       href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5"
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white hover:bg-white/5"
                     >
                       {item.name}
                     </a>
@@ -111,7 +111,7 @@ export default function UserForms({ children }: { children: React.ReactNode })
                           '/create_account': pathname == '/',
                           '/': pathname =='/create_account'
                       }
-                      )} className="mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">
+                      )} className="mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-white hover:bg-white/5">
                       {pathname === '/create_account' ? (
                           <span>Log in </span>
                       ) : (

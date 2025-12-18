@@ -10,8 +10,9 @@ export default function createNewAccount() {
       e.preventDefault()
 
       const formData = new FormData(e.currentTarget);
-      const formJsonData = { email: formData.get('email'), 
-                             name: formData.get('name'),
+      const formJsonData = { first_name: formData.get('first_name'), 
+                             last_name: formData.get('last_name'),
+                             email: formData.get('email'), 
                              password: formData.get('password'),
                              confirmPassword: formData.get('confirmPassword')
       };
@@ -61,17 +62,34 @@ export default function createNewAccount() {
 
               <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form onSubmit={onSubmit} method="POST" className="space-y-6">
+                  
                   <div>
                     <label htmlFor="name" className="block text-sm/6 font-medium text-gray-100">
-                      Name
+                      First name
                     </label>
                     <div className="mt-2">
                       <input
-                        id="name"
-                        name="name"
+                        id="first_name"
+                        name="first_name"
                         type="text"
                         required
-                        autoComplete="Name"
+                        autoComplete="First name"
+                        className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="name" className="block text-sm/6 font-medium text-gray-100">
+                      Last name
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="last_name"
+                        name="last_name"
+                        type="text"
+                        required
+                        autoComplete="Last name"
                         className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                       />
                     </div>

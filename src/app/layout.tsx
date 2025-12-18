@@ -5,7 +5,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
 {
   return (
     <html lang="en">
-      <body className={work_sans.className}>{children}</body>
+      <body className={`${work_sans.className} font-light`}>{children}</body>
     </html>
   );
 }
