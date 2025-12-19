@@ -20,7 +20,7 @@ export const verifySession = async () => {
     redirect('/');
   }
 
-  return { isAuth: true, userId: session.sessionId };
+  return { isAuth: true, userId: session.session_id };
 };
 
 export const getUser = async () => {
