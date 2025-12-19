@@ -33,19 +33,16 @@ export async function decrypt(token?: string) {
   }
 }
 
-
 // CREATE THE SESSION
-export async function createSession(id: number) {
+export async function createSession(userId: number) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //7 days
  
   // 1. Create a session in the database
-  const data = await Sessions.create(id.toString(), expiresAt);
+  const data = await Sessions.create(userId.toString(), expiresAt);
   const session_id = data.id;
 
   // 2. Encrypt the session ID
-  console.log(session_id);
   const session = await encrypt({ session_id: session_id });
-  console.log(session);
 
   // 3. Store the session in cookies for optimistic auth checks
   const cookieStore = await cookies();
@@ -56,4 +53,19 @@ export async function createSession(id: number) {
     sameSite: 'lax',
     path: '/',
   });
+
+  cookieStore.set('user_id', userId.toString(), {
+  httpOnly: false, // allow client-side access if needed
+  secure: process.env.NODE_ENV === 'production',
+  expires: expiresAt,
+  sameSite: 'lax',
+  path: '/',
+  });
+}
+
+export async function deleteSession(userId: string) {
+  await Sessions.deleteByUserId(userId.toString())
+  const cookieStore = await cookies();
+  cookieStore.delete('session');
+  cookieStore.delete('user_id')
 }

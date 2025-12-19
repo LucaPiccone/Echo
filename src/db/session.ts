@@ -19,11 +19,11 @@ export const Sessions = {
 //   },
 
   // Delete all sessions for a user (logout everywhere)
-//   async deleteByUserId(user_id: string) {
-//     const session = await sql`
-//       DELETE FROM session WHERE user_id = ${user_id}
-//       RETURNING *
-//     `;
-//     return session;
-//   },
+  async deleteByUserId(user_id: string) {
+    const session = await sql`
+      DELETE FROM session WHERE user_id = ${user_id}
+      RETURNING *
+    `;
+    return session;
+  },
 };

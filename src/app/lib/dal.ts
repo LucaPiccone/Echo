@@ -1,5 +1,4 @@
 import 'server-only';
- import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { decrypt } from '@/src/app/lib/session';
 import { redirect } from 'next/navigation';
@@ -10,16 +9,10 @@ import { Users } from '@/src/db/users';
 export const verifySession = async () => {
   const cookieStore = await cookies();
   const sessionToken = await cookieStore.get('session')?.value;
-
-  console.log('session cookie:', sessionToken);
-
   const session = await decrypt(sessionToken);
-  console.log('decrypted session:', session);
-
   if (!session?.session_id) {
     redirect('/');
   }
-
   return { isAuth: true, userId: session.session_id };
 };
 

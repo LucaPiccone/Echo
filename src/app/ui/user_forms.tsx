@@ -8,12 +8,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 
-// const navigation = [
-//   // { name: 'Product', href: '#' },
-//   // { name: 'Features', href: '#' },
-//   // { name: 'Marketplace', href: '#' },
-//   // { name: 'Company', href: '#' },
-// ]
+
 export default function UserForms({ children }: { children: React.ReactNode }) 
 {
   const pathname = usePathname();

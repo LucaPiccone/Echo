@@ -44,7 +44,7 @@ export default function CreateNewAccount() {
         // - Clear the form
         // Example: 
         // setSuccess(true); 
-      router.push('/echo');
+      window.location.href = '/echo';
 
       } catch (err: any) {
           setError("Network Error. Please try again.");
