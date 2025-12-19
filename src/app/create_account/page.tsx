@@ -2,8 +2,11 @@
 import UserForms from '@/src/app/ui/user_forms'
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function createNewAccount() {
+
+export default function CreateNewAccount() {
+    const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {  
@@ -20,6 +23,10 @@ export default function createNewAccount() {
       try {
         const response = await fetch('/api/users/create_account', {
           method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
           body: JSON.stringify(formJsonData)
         });
 
@@ -30,20 +37,18 @@ export default function createNewAccount() {
           return;
         }
 
-        console.log(data.message); // "success" or whatever you returned
+        // "success" or whatever you returned
         // You can:
         // - Redirect the user
         // - Show a success message
         // - Clear the form
         // Example: 
         // setSuccess(true); 
-        // router.push('/login');
-
+      router.push('/echo');
 
       } catch (err: any) {
-            throw new Error("Network Error");
+          setError("Network Error. Please try again.");
       }
-
     }
 
     return (
@@ -64,7 +69,7 @@ export default function createNewAccount() {
                 <form onSubmit={onSubmit} method="POST" className="space-y-6">
                   
                   <div>
-                    <label htmlFor="name" className="block text-sm/6 font-medium text-gray-100">
+                    <label htmlFor="first_name" className="block text-sm/6 font-medium text-gray-100">
                       First name
                     </label>
                     <div className="mt-2">
@@ -73,14 +78,14 @@ export default function createNewAccount() {
                         name="first_name"
                         type="text"
                         required
-                        autoComplete="First name"
+                        autoComplete="given-name"
                         className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="name" className="block text-sm/6 font-medium text-gray-100">
+                    <label htmlFor="last_name" className="block text-sm/6 font-medium text-gray-100">
                       Last name
                     </label>
                     <div className="mt-2">
@@ -89,7 +94,7 @@ export default function createNewAccount() {
                         name="last_name"
                         type="text"
                         required
-                        autoComplete="Last name"
+                        autoComplete="family-name"
                         className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                       />
                     </div>

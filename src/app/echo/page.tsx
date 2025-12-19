@@ -1,7 +1,11 @@
 import { work_sans } from "../ui/fonts";
 import UserForms from "../ui/user_forms";
+import { verifySession } from "../lib/dal";
 
-export default function Echo() {
+
+export default async function Echo() {
+  const session = await verifySession() 
+
     return (
         <div >
             <UserForms >

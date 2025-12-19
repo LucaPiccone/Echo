@@ -1,0 +1,59 @@
+import { cookies } from 'next/headers'
+import { Sessions } from '@/src/db/session'
+
+// ENCRYPT THE SESSION 
+const SECRET_KEY = process.env.SESSION_SECRET!;
+
+// app/lib/session.ts
+
+import 'server-only';
+import { SignJWT, jwtVerify } from 'jose';
+ 
+const secretKey = process.env.SESSION_SECRET;
+const encodedKey = new TextEncoder().encode(secretKey);
+ 
+export async function encrypt(payload: { session_id: string }) {
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(encodedKey);
+}
+ 
+export async function decrypt(token?: string) {
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, encodedKey, {
+      algorithms: ['HS256'],
+    });
+
+    return payload as SessionPayload;
+  } catch {
+    return null;
+  }
+}
+
+
+// CREATE THE SESSION
+export async function createSession(id: number) {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //7 days
+ 
+  // 1. Create a session in the database
+  const data = await Sessions.create(id.toString(), expiresAt);
+  const session_id = data.id;
+
+  // 2. Encrypt the session ID
+  console.log(session_id);
+  const session = await encrypt({ session_id: session_id });
+  console.log(session);
+
+  // 3. Store the session in cookies for optimistic auth checks
+  const cookieStore = await cookies();
+  cookieStore.set('session', session, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // only secure in production change it to true
+    expires: expiresAt,
+    sameSite: 'lax',
+    path: '/',
+  });
+}
