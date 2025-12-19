@@ -1,22 +1,18 @@
+import { getUser } from "@/src/app/lib/dal";
 import { deleteSession } from "@/src/app/lib/session";
-import { cookies } from "next/headers";
 import { NextResponse } from 'next/server';
 
 
 export async function POST(request: Request) {
-    const cookieStore = await cookies();
 
-    // Get the user_id cookie
-    const userId = await cookieStore.get('user_id')?.value;
+    const user = await getUser();
 
-    if (!userId) {
-        throw new Error('No user_id found in cookies');
-    }
+    console.log(user)
 
-    await deleteSession(userId);
+    if (!user) {
+        return NextResponse.json({ error: 'No user' }, { status: 500 });
+    }    
+    await deleteSession(user.id);
 
-    return NextResponse.json(
-        { message: 'success' }, 
-        { status: 201 }
-    );
+    return NextResponse.json({ message: 'success' }, { status: 201 });
 }

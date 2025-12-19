@@ -10,13 +10,21 @@ export const Sessions = {
     return session;
   },
 
+  // Find by id 
+  async findBySessionId(session_id: string) {
+    const [session] = await sql`
+      SELECT * FROM session WHERE id = ${session_id}
+    `;
+    return session;
+  },
+
   // Find all sessions for a user
-//   async findByUserId(user_id: string) {
-//     const session = await sql`
-//       SELECT * FROM session WHERE user_id = ${user_id}
-//     `;
-//     return session;
-//   },
+  async findByUserId(user_id: string) {
+    const session = await sql`
+      SELECT * FROM session WHERE user_id = ${user_id}
+    `;
+    return session;
+  },
 
   // Delete all sessions for a user (logout everywhere)
   async deleteByUserId(user_id: string) {

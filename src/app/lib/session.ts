@@ -53,14 +53,6 @@ export async function createSession(userId: number) {
     sameSite: 'lax',
     path: '/',
   });
-
-  cookieStore.set('user_id', userId.toString(), {
-  httpOnly: false, // allow client-side access if needed
-  secure: process.env.NODE_ENV === 'production',
-  expires: expiresAt,
-  sameSite: 'lax',
-  path: '/',
-  });
 }
 
 export async function deleteSession(userId: string) {
