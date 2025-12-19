@@ -27,7 +27,7 @@ export async function decrypt(token?: string) {
       algorithms: ['HS256'],
     });
 
-    return payload as SessionPayload;
+    return payload as { session_id: string };
   } catch {
     return null;
   }
