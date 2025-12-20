@@ -6,8 +6,10 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     try {
-        await LogoutInteractor();
-        return NextResponse.json({ message: 'success' }, { status: 201 });
+        const response = NextResponse.json({ message: 'success' }, { status: 201 });
+
+        await LogoutInteractor(response);
+        return response;
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: error.status });
     }

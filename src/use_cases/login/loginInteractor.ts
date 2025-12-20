@@ -3,8 +3,9 @@ import { LoginInputData } from "./loginInputData";
 import bcrypt from "bcryptjs";
 import { DBUserDataAccessObject } from "@/src/db/users/DBUserDataAccessObject";
 import { createSession } from "@/src/app/lib/session";
+import { NextResponse } from 'next/server';
 
-export async function LoginInteractor(input: LoginInputData) {
+export async function LoginInteractor(input: LoginInputData, res: NextResponse) {
     const email = input.email.trim().toLowerCase();
     const password = input.password;
     if (!email || !password) {
@@ -23,5 +24,5 @@ export async function LoginInteractor(input: LoginInputData) {
         throw new ValidationError("Incorrect password");
     } 
 
-    await createSession(dbUser.id);
+    await createSession(dbUser.id, res);
 }
