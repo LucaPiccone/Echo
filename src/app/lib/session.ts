@@ -1,16 +1,13 @@
+import 'server-only';
 import { cookies } from 'next/headers'
 import { Sessions } from '@/src/db/session'
 
-// ENCRYPT THE SESSION 
-const SECRET_KEY = process.env.SESSION_SECRET!;
-
 // app/lib/session.ts
 
-import 'server-only';
 import { SignJWT, jwtVerify } from 'jose';
  
-const secretKey = process.env.SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
+const SESSION_SECRET = process.env.SESSION_SECRET;
+const encodedKey = new TextEncoder().encode(SESSION_SECRET);
  
 export async function encrypt(payload: { session_id: string }) {
   return new SignJWT(payload)
