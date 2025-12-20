@@ -4,9 +4,8 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const response = NextResponse.json({ message: 'success' }, { status: 201 });
-        await LoginInteractor(body, response);
-        return response;    
+        await LoginInteractor(body);
+        return  NextResponse.json({ message: 'success' }, { status: 201 });    
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: error.status });
     }

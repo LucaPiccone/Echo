@@ -24,7 +24,6 @@ export default function Home()
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         setError(data.error || "Log in error.")
         return;
@@ -33,7 +32,6 @@ export default function Home()
     } catch (error: any) {
       setError("Network Error. Please try again.");
     }
-
   }
 
   
@@ -102,6 +100,7 @@ export default function Home()
               </button>
             </div>
           </form>
+          {error && <div className="mt-2 text-center text-red-500 ">{error}</div>}
         </div>  
       </UserForms>
     </div>

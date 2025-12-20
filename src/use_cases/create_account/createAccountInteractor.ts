@@ -4,9 +4,8 @@ import { DBUserDataAccessObject } from "@/src/db/users/DBUserDataAccessObject";
 import bcrypt from "bcryptjs";
 import { UserFactory } from "@/src/entities/users/userFactory";
 import { createSession } from "@/src/app/lib/session";
-import { NextResponse } from 'next/server';
 
-export async function CreateAccountInteractor(input: CreateAccountInput, res: NextResponse) {
+export async function CreateAccountInteractor(input: CreateAccountInput) {
     const firstName = input.firstName.trim();
     const lastName = input.lastName.trim();
     const email = input.email.trim().toLowerCase();
@@ -41,5 +40,5 @@ export async function CreateAccountInteractor(input: CreateAccountInput, res: Ne
     });
 
     const dbUser = await DBUserDataAccessObject.create(user);
-    await createSession(dbUser.id, res);
+    await createSession(dbUser.id);
 }

@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { Sessions } from '@/src/db/session'
-import { NextResponse } from 'next/server';
 
 // ENCRYPT THE SESSION 
 const SECRET_KEY = process.env.SESSION_SECRET!;
@@ -35,7 +34,7 @@ export async function decrypt(token?: string) {
 }
 
 // CREATE THE SESSION
-export async function createSession(userId: number, res: NextResponse) {
+export async function createSession(userId: number) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //7 days
   
     // 1. Create a session in the database
@@ -46,28 +45,19 @@ export async function createSession(userId: number, res: NextResponse) {
     const session = await encrypt({ session_id: session_id });
 
     // 3. Store the session in cookies for optimistic auth checks
-    // const cookieStore = await cookies();
-    // cookieStore.set('session', session, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   // secure: process.env.NODE_ENV === 'production', // only secure in production change it to true
-    //   expires: expiresAt,
-    //   sameSite: 'lax',
-    //   path: '/',
-    // });
-    // 3. Attach the cookie to the response
-    res.cookies.set('session', session, {
+    const cookieStore = await cookies();
+    cookieStore.set('session', session, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', 
-      sameSite: 'lax',
-      path: '/',
+      secure: true,
+      // secure: process.env.NODE_ENV === 'production', // only secure in production change it to true
       expires: expiresAt,
+      sameSite: 'none',
+      path: '/',
     });
 }
 
-export async function deleteSession(userId: string, res: NextResponse) {
+export async function deleteSession(userId: string) {
     await Sessions.deleteByUserId(userId.toString())
-    // const cookieStore = await cookies();
-    // cookieStore.delete('session');
-    res.cookies.delete('session');
+    const cookieStore = await cookies();
+    cookieStore.delete('session');
 }
