@@ -13,8 +13,8 @@ export default function CreateNewAccount() {
       e.preventDefault()
 
       const formData = new FormData(e.currentTarget);
-      const formJsonData = { first_name: formData.get('first_name'), 
-                             last_name: formData.get('last_name'),
+      const formJsonData = { firstName: formData.get('firstName'), 
+                             lastName: formData.get('lastName'),
                              email: formData.get('email'), 
                              password: formData.get('password'),
                              confirmPassword: formData.get('confirmPassword')
@@ -74,8 +74,8 @@ export default function CreateNewAccount() {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="first_name"
-                        name="first_name"
+                        id="firstName"
+                        name="firstName"
                         type="text"
                         required
                         autoComplete="given-name"
@@ -90,8 +90,8 @@ export default function CreateNewAccount() {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="last_name"
-                        name="last_name"
+                        id="lastName"
+                        name="lastName"
                         type="text"
                         required
                         autoComplete="family-name"

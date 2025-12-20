@@ -21,43 +21,43 @@ export async function encrypt(payload: { session_id: string }) {
 }
  
 export async function decrypt(token?: string) {
-  if (!token) return null;
-  try {
-    const { payload } = await jwtVerify(token, encodedKey, {
-      algorithms: ['HS256'],
-    });
+    if (!token) return null;
+    try {
+      const { payload } = await jwtVerify(token, encodedKey, {
+        algorithms: ['HS256'],
+      });
 
-    return payload as { session_id: string };
-  } catch {
-    return null;
-  }
+      return payload as { session_id: string };
+    } catch {
+      return null;
+    }
 }
 
 // CREATE THE SESSION
 export async function createSession(userId: number) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //7 days
- 
-  // 1. Create a session in the database
-  const data = await Sessions.create(userId.toString(), expiresAt);
-  const session_id = data.id;
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //7 days
+  
+    // 1. Create a session in the database
+    const data = await Sessions.create(userId.toString(), expiresAt);
+    const session_id = data.id;
 
-  // 2. Encrypt the session ID
-  const session = await encrypt({ session_id: session_id });
+    // 2. Encrypt the session ID
+    const session = await encrypt({ session_id: session_id });
 
-  // 3. Store the session in cookies for optimistic auth checks
-  const cookieStore = await cookies();
-  cookieStore.set('session', session, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // only secure in production change it to true
-    expires: expiresAt,
-    sameSite: 'lax',
-    path: '/',
-  });
+    // 3. Store the session in cookies for optimistic auth checks
+    const cookieStore = await cookies();
+    cookieStore.set('session', session, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // only secure in production change it to true
+      expires: expiresAt,
+      sameSite: 'lax',
+      path: '/',
+    });
 }
 
 export async function deleteSession(userId: string) {
-  await Sessions.deleteByUserId(userId.toString())
-  const cookieStore = await cookies();
-  cookieStore.delete('session');
-  cookieStore.delete('user_id')
+    await Sessions.deleteByUserId(userId.toString())
+    const cookieStore = await cookies();
+    cookieStore.delete('session');
+    cookieStore.delete('user_id')
 }

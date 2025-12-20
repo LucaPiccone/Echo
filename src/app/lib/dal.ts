@@ -2,8 +2,8 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { decrypt } from '@/src/app/lib/session';
 import { redirect } from 'next/navigation';
-import { Users } from '@/src/db/users';
 import { Sessions } from '@/src/db/session';
+import { DBUserDataAccessObject } from '@/src/db/users/DBUserDataAccessObject';
  
 // DATA ACCESS LAYER
 export const verifySession = async () => {
@@ -42,7 +42,7 @@ export const getUser = async () => {
     if (!session) return null;
   
     try {
-      return Users.findById(session.userId)
+      return DBUserDataAccessObject.findById(session.userId)
     } catch (error) {
       console.log('Failed to fetch user')
       return null
