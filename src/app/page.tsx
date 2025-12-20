@@ -28,7 +28,7 @@ export default function Home()
         setError(data.error || "Log in error.")
         return;
       }
-      window.location.href = '/echo';
+      // window.location.href = '/echo';
     } catch (error: any) {
       setError("Network Error. Please try again.");
     }
