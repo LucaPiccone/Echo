@@ -8,29 +8,31 @@ import { DBUserDataAccessObject } from '@/src/db/users/DBUserDataAccessObject';
 // DATA ACCESS LAYER
 export const verifySession = async () => {
     const cookieStore = await cookies();
-    const sessionToken = await cookieStore.get('session')?.value;
+    const sessionToken = cookieStore.get('session')?.value;
     if (!sessionToken) {
+      console.log('no cookie')
       redirect('/');
     }
 
     const session = await decrypt(sessionToken);
     if (!session?.session_id) {
+      console.log('decrypt fail')
       redirect('/');
     }
 
     const dbSession = await Sessions.findBySessionId(session.session_id);
     if (!dbSession) {
+      console.log('session does not exist in db.')
       redirect('/');
     }
 
     const isExpired = new Date(dbSession.expires_at) < new Date();
     const userId = dbSession.user_id;
     if (isExpired) {
-
+      console.log('session expired')
       await Sessions.deleteByUserId(userId.toString());
       cookieStore.delete('session');
       redirect('/');
-
     }
 
     return { isAuth: true, sessionId: sessionToken, userId: userId};
