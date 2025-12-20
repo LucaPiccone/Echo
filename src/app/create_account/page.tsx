@@ -22,7 +22,7 @@ export default function CreateNewAccount() {
 
       try {
         const response = await fetch('/api/users/create_account', {
-          method: "POST",
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -33,19 +33,10 @@ export default function CreateNewAccount() {
         const data = await response.json();
 
         if (!response.ok) {
-          setError(data.error || "Error in from validation.")
+          setError(data.error || "Create an account error.")
           return;
         }
-
-        // "success" or whatever you returned
-        // You can:
-        // - Redirect the user
-        // - Show a success message
-        // - Clear the form
-        // Example: 
-        // setSuccess(true); 
-      window.location.href = '/echo';
-
+        window.location.href = '/echo';
       } catch (err: any) {
           setError("Network Error. Please try again.");
       }

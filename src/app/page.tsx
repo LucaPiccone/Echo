@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react'
 import UserForms from './ui/user_forms'
 import Image from 'next/image'
@@ -6,6 +6,36 @@ import Image from 'next/image'
 export default function Home() 
 {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [error, setError] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget);
+    const formJsonData = {email: formData.get('email'), 
+                          password: formData.get('password'),
+    };
+    try {
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(formJsonData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Log in error.")
+        return;
+      }
+      window.location.href = '/echo';
+    } catch (error: any) {
+      setError("Network Error. Please try again.");
+    }
+
+  }
+
   
 
   return (
@@ -23,7 +53,7 @@ export default function Home()
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={onSubmit} method="POST" className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm/6 font-medium text-gray-100">
                 Email address
@@ -76,8 +106,5 @@ export default function Home()
       </UserForms>
     </div>
   )
-}
-function fetch(arg0: string) {
-  throw new Error('Function not implemented.')
 }
 
