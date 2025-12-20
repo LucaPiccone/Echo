@@ -6,7 +6,7 @@ import { Sessions } from '@/src/db/session';
 import { DBUserDataAccessObject } from '@/src/db/users/DBUserDataAccessObject';
  
 // DATA ACCESS LAYER
-export const verifySession = async () => {
+export const verifySession = async (res?: NextResponse) => {
     const cookieStore = await cookies();
     const sessionToken = await cookieStore.get('session')?.value;
     if (!sessionToken) {
@@ -27,9 +27,9 @@ export const verifySession = async () => {
     const userId = dbSession.user_id;
     if (isExpired) {
       await Sessions.deleteByUserId(userId.toString());
-      cookieStore.delete('session');
-      cookieStore.delete('user_id');
+      res.cookies.delete('session');
       redirect('/');
+
     }
 
     return { isAuth: true, sessionId: sessionToken, userId: userId};
@@ -37,8 +37,6 @@ export const verifySession = async () => {
 
 export const getUser = async () => {
     const session = await verifySession();
-    console.log(session)
-
     if (!session) return null;
   
     try {
