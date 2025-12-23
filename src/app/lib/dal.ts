@@ -34,8 +34,7 @@ export const verifySession = async () => {
       cookieStore.delete('session');
       redirect('/');
     }
-
-    return { isAuth: true, sessionId: sessionToken, userId: userId};
+    return { isAuth: true, userId: userId};
 };
 
 export const getUser = async () => {
